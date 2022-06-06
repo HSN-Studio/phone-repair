@@ -1,5 +1,4 @@
 import React, { createContext, useState } from "react";
-import React from "react";
 const DeviceDetailsContext = createContext(undefined);
 const DeviceDetailsDispatchContext = createContext(undefined);
 function DeviceDetailsProvider({ children }) {
@@ -11,9 +10,18 @@ function DeviceDetailsProvider({ children }) {
       cost: "",
     },
   ]);
-  return <div>DeviceDetailsProvider</div>;
+  return (
+    <DeviceDetailsContext.Provider value={deviceDetails}>
+      <DeviceDetailsDispatchContext.Provider value={setdeviceDetails}>
+        {children}
+      </DeviceDetailsDispatchContext.Provider>
+    </DeviceDetailsContext.Provider>
+  );
 }
 
 export default DeviceDetailsProvider;
-
-createContext;
+export {
+  DeviceDetailsProvider,
+  DeviceDetailsDispatchContext,
+  DeviceDetailsContext,
+};

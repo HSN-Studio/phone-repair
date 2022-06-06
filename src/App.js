@@ -2,6 +2,7 @@ import { useState } from "react";
 import "./App.css";
 import SelectDevice from "./components/SelectDevice";
 import StepProvider from "./Store/StepProvider";
+import DeviceDetailsProvider from "./Store/DeviceDetailsProvider";
 function App() {
   // States
 
@@ -11,7 +12,9 @@ function App() {
     <div className="App">
       <header className="App-header"></header>
       <StepProvider>
-        <SelectDevice />
+        <DeviceDetailsProvider>
+          <SelectDevice />
+        </DeviceDetailsProvider>
       </StepProvider>
     </div>
   );
