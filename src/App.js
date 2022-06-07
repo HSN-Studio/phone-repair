@@ -1,6 +1,7 @@
 import { useState, useContext } from "react";
 import "./App.css";
 import SelectDevice from "./components/SelectDevice";
+import SelectModel from "./components/SelectModel";
 import StepProvider from "./Store/StepProvider";
 import { StepContext } from "./Store/StepProvider";
 
@@ -15,7 +16,7 @@ function App() {
         return <SelectDevice />;
         break;
       case 2:
-        return <h2>O be ja oyee boo bakriya</h2>;
+        return <SelectModel />;
         break;
     }
   };
