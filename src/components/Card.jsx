@@ -1,19 +1,31 @@
 import React, { useState, useContext } from "react";
-import { StepContext } from "../Store/StepProvider";
+import { StepContext, StepDispatchContext } from "../Store/StepProvider";
 import { DeviceDetailsContext } from "../Store/DeviceDetailsProvider";
+import { DeviceDetailsDispatchContext } from "../Store/DeviceDetailsProvider";
 import ArrowCircleRightIcon from "@mui/icons-material/ArrowCircleRight";
 
 function Card({ title }) {
-  const stepNumber = useContext(StepContext);
-  const deviceDetails = useContext(DeviceDetailsContext);
-  const cardHandler = () => {
-    console.log(stepNumber);
-    console.log(deviceDetails);
+  // Contexts/States
+  const currentlyActive = useContext(StepContext);
+  const setcurrentlyActive = useContext(StepDispatchContext);
+  const stepNumber = currentlyActive.step;
+  const deviceNumber = currentlyActive.device;
+  const devices = useContext(DeviceDetailsContext);
+  const setDevices = useContext(DeviceDetailsDispatchContext);
+
+  //Handlers
+  const cardHandler = (title) => {
+    let devicestemp = [...devices];
+    devicestemp[deviceNumber].deviceType = title;
+    setDevices(devicestemp);
+    setcurrentlyActive({ step: 2, device: 0 });
+    console.log(devices, currentlyActive);
   };
+
+  //JSX
   return (
-    <div className="card" onClick={cardHandler}>
+    <div className="card" onClick={() => cardHandler(title)}>
       <div className="card-content">
-        <input name="make" id={title} value={title} type="radio"></input>
         <img
           src={`/images/${title.replace(" ", "-").toLowerCase()}.png`}
           alt={title}
