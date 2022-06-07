@@ -19,7 +19,6 @@ function Card({ title }) {
     devicestemp[deviceNumber].deviceType = title;
     setDevices(devicestemp);
     setcurrentlyActive({ step: 2, device: 0 });
-    console.log(devices, currentlyActive);
   };
 
   //JSX

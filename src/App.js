@@ -7,8 +7,7 @@ import { StepContext } from "./Store/StepProvider";
 
 function App() {
   // States
-  const step = useContext(StepContext);
-  const stepNumber = step.step;
+  const { step } = useContext(StepContext);
   // Regular Methods
   // Render Method
   const renderStep = (stepNumber) => {
@@ -23,12 +22,10 @@ function App() {
   };
   // JSX
   return (
-    <StepProvider>
-      <div className="App">
-        <header className="App-header"></header>
-        <DeviceDetailsProvider>{renderStep(step.step)}</DeviceDetailsProvider>
-      </div>
-    </StepProvider>
+    <div className="App">
+      <header className="App-header"></header>
+      <DeviceDetailsProvider>{renderStep(step)}</DeviceDetailsProvider>
+    </div>
   );
 }
 
