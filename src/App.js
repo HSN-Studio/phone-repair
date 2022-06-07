@@ -2,7 +2,6 @@ import { useState, useContext } from "react";
 import "./App.css";
 import SelectDevice from "./components/SelectDevice";
 import StepProvider from "./Store/StepProvider";
-import DeviceDetailsProvider from "./Store/DeviceDetailsProvider";
 import { StepContext } from "./Store/StepProvider";
 
 function App() {
@@ -24,7 +23,7 @@ function App() {
   return (
     <div className="App">
       <header className="App-header"></header>
-      <DeviceDetailsProvider>{renderStep(step)}</DeviceDetailsProvider>
+      {renderStep(step)}
     </div>
   );
 }
