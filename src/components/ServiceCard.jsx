@@ -12,6 +12,8 @@ import {
 
 function ServiceCard({ service }) {
   // STates / Contexts
+  const serviceName = service[0];
+  const servicePrice = service[1];
   const devices = useContext(DeviceDetailsContext);
   const setDevices = useContext(DeviceDetailsDispatchContext);
   const step = useContext(StepContext);
@@ -24,11 +26,7 @@ function ServiceCard({ service }) {
 
   // Lifecycle
   useEffect(() => {
-    fetch(`./${deviceType}.json`)
-      .then((res) => res.json())
-      .then((data) => {
-        console.log(data[deviceBrand]);
-      });
+    console.log(service);
   }, []);
 
   // Handlers
@@ -37,11 +35,11 @@ function ServiceCard({ service }) {
     <div className="card" onClick={() => cardHandler("title")}>
       <div className="card-content">
         <img
-          src={`/images/${"title".replace(" ", "-").toLowerCase()}.png`}
-          alt={"title"}
+          src={`/images/${serviceName.replace(/[ /]/g, "-").toLowerCase()}.png`}
+          alt={serviceName}
         ></img>
         <h2>
-          {"title"} <ArrowCircleRightIcon />
+          {`${serviceName}(${servicePrice})`} <ArrowCircleRightIcon />
         </h2>
       </div>
     </div>

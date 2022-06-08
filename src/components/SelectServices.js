@@ -21,7 +21,7 @@ function SelectServices() {
   const deviceBrand = devices[deviceNumber].brand;
   const deviceModel = devices[deviceNumber].deviceModel;
   const stepNumber = step.step;
-
+  const [services, setServices] = useState([]);
   // Lifecycle
   useEffect(() => {
     fetch(`./${deviceType}.json`)
@@ -29,13 +29,22 @@ function SelectServices() {
       .then((data) => {
         const device = data[deviceBrand].find((device) => {
           return device.Model === deviceModel;
-          // console.log(device)
         });
-        console.log(device);
+        setServices(Object.entries(device));
       });
   }, []);
 
-  return <div>SelectServices</div>;
+  return (
+    <div>
+      {services
+        ? services.map((service) => {
+            if (service[0] !== "Model") {
+              return <ServiceCard key={service[0]} service={service} />;
+            }
+          })
+        : null}
+    </div>
+  );
 }
 
 export default SelectServices;
