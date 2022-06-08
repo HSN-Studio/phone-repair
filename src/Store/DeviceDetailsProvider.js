@@ -5,6 +5,7 @@ function DeviceDetailsProvider({ children }) {
   const [deviceDetails, setdeviceDetails] = useState([
     {
       deviceType: "",
+      brand: "",
       deviceModel: "",
       issues: [],
       cost: "",

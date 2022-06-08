@@ -2,6 +2,7 @@ import { useState, useContext } from "react";
 import "./App.css";
 import SelectDevice from "./components/SelectDevice";
 import SelectModel from "./components/SelectModel";
+import SelectServices from "./components/SelectServices";
 import StepProvider from "./Store/StepProvider";
 import { StepContext } from "./Store/StepProvider";
 
@@ -18,6 +19,8 @@ function App() {
       case 2:
         return <SelectModel />;
         break;
+      case 3:
+        return <SelectServices />;
     }
   };
   // JSX
