@@ -12,6 +12,8 @@ function SelectModel() {
   //States
   const [devices, setdevices] = useState();
   const [brands, setbrands] = useState([]);
+  const [models, setmodels] = useState([]);
+  const [brand, setbrand] = useState(undefined);
   useEffect(() => {
     const Devices = fetch(`./${deviceType}.json`)
       .then((res) => res.json())
@@ -20,6 +22,13 @@ function SelectModel() {
         setbrands(Object.keys(data));
       });
   }, []);
+  useEffect(() => {
+    if (brand === undefined) return;
+    const modelsData = devices[brand].map((device) => {
+      return device.Model;
+    });
+    setmodels(modelsData);
+  }, [brand]);
 
   //Regular Functions
 
@@ -33,6 +42,14 @@ function SelectModel() {
         options={brands}
         sx={{ width: 300 }}
         renderInput={(params) => <TextField {...params} label="Brand" />}
+        onChange={(e, value) => setbrand(value)}
+      />
+      <Autocomplete
+        disablePortal
+        id="select-device-model"
+        options={models}
+        sx={{ width: 300 }}
+        renderInput={(params) => <TextField {...params} label="Model" />}
       />
     </div>
   );
