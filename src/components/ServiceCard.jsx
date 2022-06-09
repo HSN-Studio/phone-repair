@@ -30,9 +30,12 @@ function ServiceCard({ service }) {
   }, []);
 
   // Handlers
-  const cardHandler = (service) => {};
+  const cardHandler = (serviceCard) => {
+    serviceCard.classList.toggle("active");
+    console.log(serviceCard);
+  };
   return (
-    <div className="card" onClick={() => cardHandler("title")}>
+    <div className="card" onClick={(e) => cardHandler(e.target.parentElement)}>
       <div className="card-content">
         <img
           src={`/images/${serviceName.replace(/[ /]/g, "-").toLowerCase()}.png`}
