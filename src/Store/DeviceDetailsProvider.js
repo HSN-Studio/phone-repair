@@ -7,8 +7,8 @@ function DeviceDetailsProvider({ children }) {
       deviceType: "",
       brand: "",
       deviceModel: "",
-      issues: [],
-      cost: "",
+      repairs: [],
+      cost: 0,
     },
   ]);
   return (

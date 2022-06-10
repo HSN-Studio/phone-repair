@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useContext } from "react";
 import ServiceCard from "./ServiceCard";
+import Cart from "./Cart";
 import {
   DeviceDetailsContext,
   DeviceDetailsDispatchContext,
@@ -33,16 +34,54 @@ function SelectServices() {
         setServices(Object.entries(device));
       });
   }, []);
-
+  //Handles
+  const navHandler = (step) => {
+    setStep({ step: step, device: deviceNumber });
+  };
   return (
-    <div>
-      {services
-        ? services.map((service) => {
-            if (service[0] !== "Model") {
-              return <ServiceCard key={service[0]} service={service} />;
-            }
-          })
-        : null}
+    <div className="select-services-container">
+      <div className="services-container">
+        {services
+          ? services.map((service) => {
+              if (service[0] !== "Model") {
+                return <ServiceCard key={service[0]} service={service} />;
+              }
+            })
+          : null}
+      </div>
+      <div className="cart-container">
+        {devices.map((device) => (
+          <Cart
+            model={device.deviceModel}
+            repairs={device.repairs}
+            key={device.deviceModel}
+          />
+        ))}
+      </div>
+      <div className="section-nav section-3-nav">
+        <button
+          onClick={() => navHandler(stepNumber - 1)}
+          className="btn nav-btn"
+        >
+          Previous: Select Brand
+        </button>
+        {devices[deviceNumber].repairs.length > 0 ? (
+          <button
+            onClick={() => navHandler(stepNumber + 1)}
+            className="btn nav-btn nav-btn-next"
+          >
+            Next: Device Details
+          </button>
+        ) : (
+          <button
+            disabled
+            onClick={() => console.log("btn back")}
+            className="btn nav-btn "
+          >
+            Next: Device Details
+          </button>
+        )}
+      </div>
     </div>
   );
 }

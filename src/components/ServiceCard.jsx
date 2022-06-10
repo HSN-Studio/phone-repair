@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useContext } from "react";
-import ArrowCircleRightIcon from "@mui/icons-material/ArrowCircleRight";
+import React, { useState, useEffect, useContext, useRef } from "react";
+import AddBoxIcon from "@mui/icons-material/AddBox";
 import {
   DeviceDetailsContext,
   DeviceDetailsDispatchContext,
@@ -13,7 +13,7 @@ import {
 function ServiceCard({ service }) {
   // STates / Contexts
   const serviceName = service[0];
-  const servicePrice = service[1];
+  const serviceCharges = service[1];
   const devices = useContext(DeviceDetailsContext);
   const setDevices = useContext(DeviceDetailsDispatchContext);
   const step = useContext(StepContext);
@@ -23,27 +23,56 @@ function ServiceCard({ service }) {
   const deviceBrand = devices[deviceNumber].brand;
   const deviceModel = devices[deviceNumber].deviceModel;
   const stepNumber = step.step;
-
-  // Lifecycle
-  useEffect(() => {
-    console.log(service);
-  }, []);
+  const card = useRef();
+  const serviceTitle =
+    serviceCharges !== "K/A"
+      ? `${serviceName} (Ksh ${serviceCharges})`
+      : `${serviceName} (Price on Call)`;
+  // Lifecycle;
+  // useEffect(() => {
+  //   console.log(devices[deviceNumber].repairs);
+  // }, []);
 
   // Handlers
-  const cardHandler = (serviceCard) => {
-    serviceCard.classList.toggle("active");
-    console.log(serviceCard);
+  const cardHandler = () => {
+    card.current.classList.toggle("active");
+    let devicesTemp = [...devices];
+    let repairs = devicesTemp[deviceNumber].repairs;
+    const addRepair = (repair) => {
+      devicesTemp[deviceNumber].repairs.push(repair);
+      devicesTemp[deviceNumber].cost += Number(serviceCharges.replace(",", ""));
+      setDevices(devicesTemp);
+    };
+    const removeRepair = () => {
+      devicesTemp[deviceNumber].repairs = repairs.filter(
+        (repair) => repair !== serviceTitle
+      );
+      devicesTemp[deviceNumber].cost -= Number(serviceCharges.replace(",", ""));
+      setDevices(devicesTemp);
+    };
+    devicesTemp[deviceNumber].repairs.includes(serviceTitle)
+      ? removeRepair()
+      : addRepair(serviceTitle);
+    console.table(devices);
   };
+
+  //Regular Methods
+
+  // JSX
   return (
-    <div className="card" onClick={(e) => cardHandler(e.target.parentElement)}>
+    <div className="card" onClick={(e) => cardHandler(e)} ref={card}>
       <div className="card-content">
         <img
           src={`/images/${serviceName.replace(/[ /]/g, "-").toLowerCase()}.png`}
           alt={serviceName}
         ></img>
-        <h2>
-          {`${serviceName}(${servicePrice})`} <ArrowCircleRightIcon />
-        </h2>
+        <h3>
+          {`${serviceName} `}
+          {serviceCharges !== "N/A"
+            ? `(Ksh ${serviceCharges}) `
+            : `(Price on Call) `}
+        </h3>
+        <AddBoxIcon />
       </div>
     </div>
   );

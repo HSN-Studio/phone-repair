@@ -10,6 +10,7 @@ import Autocomplete from "@mui/material/Autocomplete";
 function SelectModel() {
   const stepContext = useContext(StepContext);
   const setStep = useContext(StepDispatchContext);
+  const stepNumber = stepContext.step;
   const deviceNumber = stepContext.device;
   const deviceDetails = useContext(DeviceDetailsContext);
   const setDevices = useContext(DeviceDetailsDispatchContext);
@@ -48,27 +49,58 @@ function SelectModel() {
     devicestemp[deviceNumber].brand = brand;
     setDevices(devicestemp);
   };
+  const navHandler = (step) => {
+    setStep({ step: step, device: deviceNumber });
+  };
   //JSX
 
   return (
-    <div>
-      <Autocomplete
-        disablePortal
-        id="select-device-brand"
-        options={brands}
-        sx={{ width: 300 }}
-        renderInput={(params) => <TextField {...params} label="Brand" />}
-        onChange={(e, brand) => brandInputHandler(brand)}
-      />
-      <Autocomplete
-        disablePortal
-        id="select-device-model"
-        options={models}
-        onChange={(e, model) => modelInputHandler(model)}
-        sx={{ width: 300 }}
-        renderInput={(params) => <TextField {...params} label="Model" />}
-      />
-    </div>
+    <>
+      <div>
+        <Autocomplete
+          disablePortal
+          id="select-device-brand"
+          value={deviceDetails[deviceNumber].brand}
+          options={brands}
+          sx={{ width: 300 }}
+          renderInput={(params) => <TextField {...params} label="Brand" />}
+          onChange={(e, brand) => brandInputHandler(brand)}
+        />
+        <Autocomplete
+          disablePortal
+          id="select-device-model"
+          options={models}
+          value={deviceDetails[deviceNumber].deviceModel}
+          onChange={(e, model) => modelInputHandler(model)}
+          sx={{ width: 300 }}
+          renderInput={(params) => <TextField {...params} label="Model" />}
+        />
+      </div>
+      <div className="section-nav section-2-nav">
+        <button
+          onClick={() => navHandler(stepNumber - 1)}
+          className="btn nav-btn"
+        >
+          Previous: Select Brand
+        </button>
+        {deviceDetails[deviceNumber].model ? (
+          <button
+            onClick={() => navHandler(stepNumber + 1)}
+            className="btn nav-btn nav-btn-next"
+          >
+            Next: Device Details
+          </button>
+        ) : (
+          <button
+            disabled
+            onClick={() => console.log("btn back")}
+            className="btn nav-btn "
+          >
+            Next: Device Details
+          </button>
+        )}
+      </div>
+    </>
   );
 }
 
